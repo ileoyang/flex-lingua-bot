@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+}
+
+datasource db {
+  provider = "mysql"
+  url = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Bot {
+  id            String @id @default(uuid())
+  userId        String
+  userName      String
+  avatarSrc     String
+  name          String @db.Text
+  description   String
+  instruction  String @db.Text
+  conversation          String @db.Text
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  messages      Message[]
+  @@fulltext([name])
+}
+
+enum Role {
+  user
+  system
+}
+
+model Message {
+  id          String   @id @default(uuid())
+  role        Role   
+  content     String   @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  botId String
+  userId      String
+  bot         Bot @relation(fields: [botId], references: [id], onDelete: Cascade)
+  @@index([botId])
+}
