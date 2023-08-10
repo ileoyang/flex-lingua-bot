@@ -2,9 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { Bot } from "@prisma/client";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
+import { MessagesSquare } from "lucide-react";
 
 interface BotListProps {
-  data: Bot[];
+  data: (Bot & {
+    _count: {
+      messages: number;
+    };
+  })[];
 }
 
 export const BotList = ({ data }: BotListProps) => {
@@ -30,6 +35,10 @@ export const BotList = ({ data }: BotListProps) => {
             </CardHeader>
             <CardFooter className="flex items-center justify-between text-xs text-muted-foreground">
               <p className="lowercase">@{item.userName}</p>
+              <div className="flex items-center">
+                <MessagesSquare className="w-3 h-3 mr-1" />
+                {item._count.messages}
+              </div>
             </CardFooter>
           </Link>
         </Card>

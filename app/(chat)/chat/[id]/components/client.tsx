@@ -24,7 +24,7 @@ export const ChatClient = ({ bot }: ChatClientProps) => {
 
   const { input, isLoading, handleInputChange, handleSubmit, setInput } =
     useCompletion({
-      api: `/api/chat`,
+      api: `/api/chat/${bot.id}`,
       onFinish(_prompt, completion) {
         const systemMessage: ChatMessageProps = {
           role: "system",

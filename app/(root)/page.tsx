@@ -18,6 +18,13 @@ const RootPage = async ({ searchParams }: RootPageProps) => {
     orderBy: {
       createdAt: "desc",
     },
+    include: {
+      _count: {
+        select: {
+          messages: true,
+        },
+      },
+    },
   });
 
   return (
